@@ -56,10 +56,10 @@ public:
   void normalize(byte address);
   void request_data(byte address);
   void request_data(byte address, bool fcb);
-  bool get_response(byte *pdata, unsigned char len_pdata);
+  bool get_response(uint8_t *pdata, size_t max_len);
   bool available();
   void application_reset(byte address);
-  uint8_t read_rxbuffer(byte *pdata, unsigned char len_pdata);// for debug use
+  uint8_t read_rxbuffer(uint8_t *pdata, size_t len_pdata);// for debug use
   
 protected:
 

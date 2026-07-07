@@ -82,7 +82,7 @@ void MBusCom::application_reset(byte address) {
   control_frame(address,0x53,0x50);
 }
 
-bool MBusCom::get_response(byte *pdata, unsigned char len_pdata) {
+bool MBusCom::get_response(uint8_t *pdata, size_t len_pdata) {
   uint16_t bid = 0;             // current byte of response frame
   uint16_t bid_end = 255;       // last byte of frame calculated from length byte sent
   uint16_t bid_checksum = 255;  // checksum byte of frame (next to last)
@@ -218,7 +218,7 @@ void MBusCom::control_frame(byte address, byte C_field, byte CI_field)
   _MbusSerial->write((char*)data,9);
 }
 
-uint8_t MBusCom::read_rxbuffer(byte *pdata, unsigned char len_pdata) {
+uint8_t MBusCom::read_rxbuffer(uint8_t *pdata, size_t len_pdata) {
   uint8_t i = 0;             // current byte of response frame
     while ((_MbusSerial->available()) && (i <= len_pdata)) {
       pdata[i] = (byte)_MbusSerial->read();
