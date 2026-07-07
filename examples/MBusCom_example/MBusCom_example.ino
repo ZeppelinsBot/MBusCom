@@ -47,7 +47,7 @@ void loop() {
   if(millis() - timerMbus > 1500 && mbusLoopStatus == 1){ // Receive and decode M-Bus Records
     mbusLoopStatus = 0;
     bool mbus_good_frame = false;
-    byte mbus_data[MBUS_DATA_SIZE] = { 0 };
+    uint8_t mbus_data[MBUS_DATA_SIZE] = { 0 };
     mbus_good_frame = mbus.get_response(mbus_data, sizeof(mbus_data)); // <---------------------- MBusCom: get the reveived telegram from the rx buffer
 
     if (mbus_good_frame) {

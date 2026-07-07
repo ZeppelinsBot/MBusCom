@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.8] - 2026-07-07
+
+### Changed
+
+- `get_response()` and `read_rxbuffer()` parameter types: `byte *` → `uint8_t *`, `unsigned char` → `size_t`
+- Allows response arrays larger than 255 bytes (16-bit size_t instead of 8-bit unsigned char)
+
 ## [0.1.7] - 2026-05-16
 
 ### Fixed
