@@ -43,13 +43,13 @@ MBusCom::~MBusCom(void){}
 void MBusCom::begin(){
 // ESP32 Syntax, for other platforms has to be extend with #ifdefinied(ESP32)....
   #if defined(ESP8266)
-  _MbusSerial->setRxBufferSize(MBUS_MAX_TELEGRAM_LEN + 10);
+  _MbusSerial->setRxBufferSize(MBUS_DATA_SIZE + 10);
   _MbusSerial->begin(MBUS_BAUD_RATE, SERIAL_8E1);
   #elif defined(ESP32)
-  _MbusSerial->setRxBufferSize(MBUS_MAX_TELEGRAM_LEN + 10);
+  _MbusSerial->setRxBufferSize(MBUS_DATA_SIZE + 10);
   _MbusSerial->begin(MBUS_BAUD_RATE, SERIAL_8E1, _rxPin, _txPin);
   #else
-  //_MbusSerial->setRxBufferSize(MBUS_MAX_TELEGRAM_LEN + 10);
+  //_MbusSerial->setRxBufferSize(MBUS_DATA_SIZE + 10);
   _MbusSerial->begin(MBUS_BAUD_RATE, SERIAL_8E1);
   #endif
 }
@@ -91,11 +91,10 @@ bool MBusCom::get_response(uint8_t *pdata, size_t len_pdata) {
   bool long_frame_found = false;
   bool complete_frame = false;
   bool frame_error = false;
-  uint16_t j = 0;
+  unsigned long start_time = millis();
 
   while (!frame_error && !complete_frame){
-    j++;
-    if(j>MBUS_MAX_TELEGRAM_LEN){
+    if(millis() - start_time > 500){
       frame_error = true;
     }
   while (_MbusSerial->available()) {
@@ -144,6 +143,7 @@ bool MBusCom::get_response(uint8_t *pdata, size_t len_pdata) {
           complete_frame = true;
         }
       }
+      start_time = millis();  // reset timeout when bytes arrive
       bid++;
       yield();
     }

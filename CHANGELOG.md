@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.9] - 2026-07-10
+
+### Fixed
+
+- `get_response()` timeout fired after microseconds instead of 1 second — loop counter `j` incremented on every CPU cycle between byte arrivals at2400 baud, causing "only first few bytes" of M-Bus telegrams to be received
+- Replaced loop-counter timeout with `millis()`-based timeout using existing `MBUS_TIMEOUT` (1000ms)
+- Timeout now resets on each received byte, so long telegrams don't falsely timeout
+
 ## [0.1.8] - 2026-07-07
 
 ### Changed
